@@ -210,20 +210,280 @@ class Ex11{
         return false;
     }
 
-//    public static boolean isDigitInNum(int num, int digit){
-//
-//    }
+    public static boolean isDigitInNum(int num, int digit){
+        while (num != 0){
+            if (num % 10 == digit){
+                return true;
+            } else {
+                num = num / 10;
+            }
+        }
+        return false;
+    }
+
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.println("Enter a number: ");
+        boolean isOneDigit = false;
+        int digit;
+        do{
+            System.out.println("Enter a digit: ");
+            digit = sc.nextInt();
+            isOneDigit = isOneDigit(digit);
+        } while (!isOneDigit);
+
+        System.out.println("Enter 1 more number ");
+        int num2 = sc.nextInt();
+        boolean digitInNum = isDigitInNum(num2, digit);
+        if (digitInNum){
+            System.out.println("The digit inside the number!");
+        } else {
+            System.out.println("The digit not in the number!");
+        }
+    }
+}
+
+class Ex12{
+    public static int threePositiveNumbers(){
+        while (true){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Enter a positive number");
+            int num = sc.nextInt();
+            if (num > 0){
+                return num;
+            }
+        }
+    }
+
+    public static boolean isMovingUpNumbers(int num1, int num2, int num3){
+        int gap = num2 - num1;
+        if(num3 - num2 == gap){
+            return true;
+        }
+        return false;
+    }
+
+
+    public static void main(String[] args) {
+        int num1, num2, num3;
+        num1 = threePositiveNumbers();
+        num2 = threePositiveNumbers();
+        num3 = threePositiveNumbers();
+
+        boolean isMovingUp = isMovingUpNumbers(num1, num2, num3);
+
+        if (isMovingUp){
+            System.out.println("You got it!");
+        } else {
+            System.out.println("You got it wrong!");
+        }
+    }
+}
+
+class Ex13{
+    public static boolean NumberOfDigits(int num){
+        int counter = 0;
+        while (num != 0){
+            num = num / 10;
+            counter ++;
+        }
+        if (counter % 2 == 0){
+            return false;
+        }
+        return true;
+    }
+
+    public static int numberFromUser(){
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a number with odd digits: ");
         int num = sc.nextInt();
-        boolean isOneDigit = isOneDigit(num);
-        if (isOneDigit){
-            System.out.println("Enter 1 more number ");
-            int num2 = sc.nextInt();
-//            boolean y =
+        return num;
+    }
+
+    public static int middleNumber(int num){
+        int counter = 0;
+        int checkNum = num;
+        while (checkNum != 0){
+            checkNum = checkNum / 10;
+            counter ++;
+        }
+        for (int i = 0; i < counter/2; i++) {
+            num = num / 10;
+        }
+        return num % 10;
+    }
+
+    public static void main(String[] args) {
+        int number = 0;
+        boolean isTrue = false;
+        while (!isTrue){
+            number = numberFromUser();
+            if (NumberOfDigits(number)){
+                isTrue = true;
+            }
+        }
+        System.out.println(middleNumber(number));
+    }
+}
+
+class Ex14{
+    public static int level(){
+        Scanner sc = new Scanner(System.in);
+        Random rnd = new Random();
+        System.out.println("Please choose you level 1 for easy, 2 for medium, 3 for hard, 0 for surprise level.");
+        int num = sc.nextInt();
+        while (num > 3 || num < 0){
+            System.out.println("Wrong number, please choose again! ");
+            System.out.println("1 for easy, 2 for medium, 3 for hard, 0 for surprise level.");
+            num = sc.nextInt();
+        }
+        if (num == 0){
+            return rnd.nextInt(5, 26);
+        } else if (num == 1) {
+            return 20;
+        } else if (num == 2) {
+            return 15;
+        } else {
+            return 10;
+        }
+
+    }
+
+    public static int randomCode(){
+        Random rnd = new Random();
+        int num = rnd.nextInt(1, 7)*1000;
+        int counter = 100;
+        while (counter > 0){
+            int digit = rnd.nextInt(1, 7);
+            if(!isDigitInsideNum(digit, num)){
+                num += counter*digit;
+                counter /= 10;
+            }
+        }
+        return num;
+    }
+
+    public static boolean isDigitDuplicates(int num){
+        for (int i = 0; i < 3; i++) {
+            int digit = num % 10;
+            num /= 10;
+            int helpNum = num;
+            while (helpNum != 0){
+                if (helpNum % 10 == digit){
+                    return false;
+                }
+                helpNum /= 10;
+            }
+        }
+        return true;
+    }
+
+    public static boolean isDigitInRange(int num) {
+        while (num != 0) {
+            for (int i = 0; i < 4; i++) {
+                int digit = num % 10;
+                if (digit < 1 || digit > 6) {
+                    return false;
+                }
+                num /= 10;
+            }
+        }
+        return true;
+    }
+
+
+    public static boolean isDigitInsideNum(int digit, int num){
+        while (num != 0){
+            if (num % 10 == digit){
+                return true;
+            } else {
+                num = num / 10;
+            }
+        }
+        return false;
+    }
+
+    public static boolean isUserPassIs4Digits(int num){
+        int counter = 0;
+        while (num != 0){
+            num /= 10;
+            counter ++;
+        }
+        if (counter == 4){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isDigitInSamePlaceAsNumber(int digit, int index, int num){
+        for (int i = 0; i < 4; i++) {
+            if (num % 10 == digit){
+                if (i == index){
+                    return true;
+                }
+                return false;
+            }
+            num /= 10;
+        }
+        return false;
+    }
+
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        int num = randomCode();
+//        System.out.println("The code is: " + num);
+        int tryNumber = level();
+
+        while (tryNumber > 0){
+            System.out.println("Enter 4 digit try: ");
+            int userCodeTry = sc.nextInt();
+            if (!isUserPassIs4Digits(userCodeTry)){
+                tryNumber--;
+                System.out.println("You lost 1 attempt");
+                System.out.println("You entered more than 4 digits code. Try again!");
+            } else if (!isDigitDuplicates(userCodeTry)) {
+                tryNumber -= 2;
+                System.out.println("You lost 2 attempt");
+                System.out.println("You entered a duplicate digit in you code. Try again!");
+            } else if (!isDigitInRange(userCodeTry)){
+                tryNumber--;
+                System.out.println("You lost 1 attempt");
+                System.out.println("Once or more of you digits are not in range 1-6. Try again!");
+            }
+            else {
+                int exactly = 0;
+                int half = 0;
+                for (int i = 0; i < 4; i++) {
+                    int currentDigit = userCodeTry % 10;
+                    if (isDigitInsideNum(currentDigit, num)){
+                        if (isDigitInSamePlaceAsNumber(currentDigit, i, num)){
+                            exactly++;
+                        } else half++;
+                    }
+                    userCodeTry /= 10;
+
+                }
+                if (exactly == 4){
+                    System.out.println("BOOM! You got it!");
+                    break;
+                }
+                System.out.println("You had " + exactly + " Digits in the right place.");
+                System.out.println("AND");
+                System.out.println("You had " + half + " right digits but in the wrong place.");
+                tryNumber--;
+
+            }
+
+            System.out.println("You have left " + tryNumber + " attempts.");
 
         }
+        if (tryNumber == 0){
+            System.out.println("You out of tries!");
+            System.out.println("The right code was: " + num);
+            System.out.println("Maybe next time :D");
+        }
+
     }
 }
