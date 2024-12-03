@@ -93,12 +93,39 @@ class Ex12{
         Scanner sc = new Scanner(System.in);
         System.out.println("Enter a number: ");
         int limit = sc.nextInt();
-        for (int i = 0; i < limit; i++){
-            int iter = i;
+        for (int i = 1; i < limit; i++){
             if (i % 7 == 0 || String.valueOf(i).contains("7")){
                 System.out.println("BOOM!");
             } else {
                 System.out.println(i);
+            }
+
+        }
+    }
+}
+
+class Ex12b{
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a number: ");
+        int limit = sc.nextInt();
+        for (int i = 1; i < limit; i++){
+            boolean isBoom = false;
+            int currentNum = i;
+            if (i % 7 == 0){
+                System.out.println("BOOM!");
+            } else {
+                while (currentNum != 0){
+                    if (currentNum % 10 == 7){
+                        System.out.println("BOOM!");
+                        isBoom = true;
+                        break;
+                    }
+                    currentNum = currentNum / 10; //78 -> 7
+                }
+                if (!isBoom){
+                    System.out.println(i);
+                }
             }
 
         }
