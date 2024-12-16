@@ -280,9 +280,119 @@ class Ex10{
 }
 
 class Ex11{
+    public static String revesedString(String str){
+        String newString = "";
+        for (int i = str.length()-1; i >= 0; i--) {
+            newString += str.charAt(i);
+        }
+        return newString;
+    }
 
 
     public static void main(String[] args) {
         String str = "abcdefg";
+        System.out.println(revesedString(str));
+    }
+}
+
+class Ex12{
+    public static boolean validatePassword(String password){
+        boolean isValid = false;
+        if (password.length() >= 8 && password.length() <= 10){
+            for (int i = 0; i < password.length(); i++) {
+                if (password.charAt(i) >= '0' && password.charAt(i) <= '9'){
+                    isValid = true;
+                    break;
+                }
+            }
+            if (password.contains("$") || password.contains("_") || password.contains("%")){
+                isValid = true;
+            }
+        }
+        return isValid;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Enter a password, password needs to contain at least one of the following: %,$,_ , one number at least and between 8-10 chars.");
+        String password = sc.next();
+        System.out.println(validatePassword(password));
+    }
+}
+
+class Ex13{
+    public static char mostCommonCharAtStringFromArray(String str, char[] chars){
+        str = str.toUpperCase();
+        String charsAsString = "";
+        for (int i = 0; i < chars.length; i++) {
+            charsAsString += chars[i];
+        }
+        charsAsString = charsAsString.toUpperCase();
+
+        char ch = str.charAt(0);
+        int currCharCounter = 0;
+        for (int i = 0; i < charsAsString.length(); i++) {
+            int counter = 0;
+            for (int j = 0; j < str.length(); j++) {
+                if (str.charAt(j) == charsAsString.charAt(i)){
+                    counter++;
+                }
+            }
+            if (counter > currCharCounter){
+                ch = charsAsString.charAt(i);
+                currCharCounter = counter;
+            }
+        }
+        return ch;
+    }
+
+    public static void main(String[] args) {
+        String str = "I ywiiiiiiiant itttiiccccccccccccccccccccccccccccccccccccciiiiiiiiiitttt, I got ityyyyyyyyyyiiiiiiyyyyyyyy";
+        char[] chars = {'I','A','T','C','N'};
+        System.out.println(mostCommonCharAtStringFromArray(str, chars));
+    }
+}
+
+class Ex14{
+    public static boolean isPolindrom(String str){
+        str = str.toLowerCase();
+        String avoid[] = {" ", "\\.", ","};
+        for (int i = 0; i < avoid.length; i++) {
+            str = str.replaceAll(avoid[i], "");
+        }
+
+        for (int i = 0; i < str.length(); i++) {
+            if (str.charAt(i) != str.charAt(str.length() - i - 1)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String str = "Race    c.aR";
+        System.out.println(isPolindrom(str));
+    }
+}
+
+class Ex15{
+    public static String stringOfFirstLetters(String str){
+        str = str.replaceAll("\\.", "");
+        str = str.replaceAll(",", "");
+
+        String[] words = str.split(" ");
+
+        String newString = "";
+        for (int i = 0; i < words.length; i++) {
+            if (!newString.contains(String.valueOf(words[i].charAt(0)).toLowerCase()) && !newString.contains(String.valueOf(words[i].charAt(0)).toUpperCase())){
+                newString += words[i].charAt(0);
+            }
+        }
+        return newString;
+    }
+
+    public static void main(String[] args) {
+        String str = "I want it, I got it";
+        System.out.println(stringOfFirstLetters(str));
     }
 }
