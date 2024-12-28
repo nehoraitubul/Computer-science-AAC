@@ -66,12 +66,10 @@ public class Exe2Wordle {
         }
 
         if (winner) {
-            System.out.println("🎉 Congratulations! You've guessed the word! 🎉");
             System.out.println("Well done, you're a Wordle master!");
         } else {
-            System.out.println("Oh no, so close! 😞");
+            System.out.println("Oh no, so close!");
             System.out.println("The word was: " + randomGameWord);
-            System.out.println("Don't worry, you'll get it next time! Keep trying! 💪");
         }
     }
 }
