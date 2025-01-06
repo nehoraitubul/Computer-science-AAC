@@ -30,12 +30,20 @@ public class Room {
             finalPrice += 200;
         }
         if (this.type == 2){
-            finalPrice *= (int) 1.5;
+            finalPrice *= 1.5;
         }
         if (this.type == 3){
-            finalPrice *= (int) 2.5;
+            finalPrice *= 2.5;
         }
         return finalPrice;
+    }
+
+    public int getType(){
+        return this.type;
+    }
+
+    public boolean getAvailable(){
+        return this.available;
     }
 
 
