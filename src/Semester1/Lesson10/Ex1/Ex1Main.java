@@ -1,5 +1,7 @@
 package Semester1.Lesson10.Ex1;
 
+import java.util.Random;
+
 public class Ex1Main {
     public static void main(String[] args) {
 //        BankAccount bankAccount = new BankAccount("Nehorai", "Tubul", 0);
