@@ -279,8 +279,337 @@ class Ex8{
 }
 
 class Ex9{
+    public static char mostCommonLastChar(String[] arr){
+        if (arr.length == 0){
+            return ' ';
+        }
+        char mostCommonChar = arr[0].charAt(arr[0].length() - 1);
+        int mostCommonCounter = 0;
+        for (int i = 0; i < arr.length; i++) {
+            int counter = 0;
+            for (int j = 0; j < arr.length; j++) {
+                if (arr[i].charAt(arr[i].length() - 1) == arr[j].charAt(arr[j].length() - 1)){
+                    counter++;
+                }
+            }
+            if (counter > mostCommonCounter){
+                mostCommonCounter = counter;
+                mostCommonChar = arr[i].charAt(arr[i].length() - 1);
+            }
+        }
+        return mostCommonChar;
+    }
 
     public static void main(String[] args) {
+        String[] arr = {"asc", "ascc", "asccc", "ascff","ascf","ascf","ascf"};
+        System.out.println(mostCommonLastChar(arr));
+    }
+}
 
+class Ex10{
+    public static int circulateArray(int[] arr, int num){
+        if (num > 0){
+            return arr[num % arr.length];
+        }
+        return arr[((num % arr.length) + arr.length)% arr.length];
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1,2,3};
+        System.out.println(circulateArray(arr, -4));
+    }
+}
+
+class Ex11{
+    public static int[] binaryArray(int[] arr1, int[] arr2){
+        if (arr1.length != arr2.length){
+            return new int[0];
+        }
+        int[] result = new int[arr1.length];
+        for (int i = 0; i < arr1.length; i++) {
+            if (arr1[i] > arr2[i]){
+                result[i] = 1;
+            } else if (arr1[i] < arr2[i]) {
+                result[i] = -1;
+            } else {
+                result[i] = 0;
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {1,7,9,1,6,4,3,8};
+        int[] arr2 = {4,6,9,9,2,1,0,1};
+        int[] res = binaryArray(arr1, arr2);
+        System.out.println(res);
+    }
+}
+
+class Ex12{
+    public static boolean isPrimary(int number){
+        for (int i = 2; i < number; i++) {
+            if (number % i == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void allKafulNumbers(int num){
+        if (num < 2){
+            return;
+        }
+        int temp = num;
+        for (int i = 2; i < num; i++) {
+            if (isPrimary(i)){
+                while (temp % i == 0){
+                    System.out.print(i + "*");
+                    temp /= i;
+                }
+            }
+        }
+        System.out.print("=" + num);
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isPrimary(3));
+        allKafulNumbers(12600);
+    }
+}
+
+class Ex13{
+    public static boolean isPalindrom(String text){
+        int start = 0;
+        int end = text.length() - 1;
+        while (start < end){
+            if (text.charAt(start) != text.charAt(end)){
+                return false;
+            }
+            start++;
+            end--;
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isPalindrom("רבע הלילה עבר"));
+    }
+}
+
+class Ex14{
+    public static boolean isUpNumbers(int num){
+        if (num < 100 || num > 999){
+            return false;
+        }
+        int hundreds = num / 100;
+        int tens = (num / 10) % 10;
+        int ones = num % 10;
+
+        if ((hundreds+1 == tens && tens+1 == ones) || (ones+1 == tens && tens+1 == hundreds)){
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(isUpNumbers(123));
+    }
+}
+
+class Ex15{
+    public static int[] sumOfArrays(int[] arr1, int[] arr2){
+        int[] bigger = arr1;
+        int[] smaller = arr2;
+        if (arr2.length > arr1.length){
+            bigger = arr2;
+            smaller = arr1;
+        }
+        int[] result = new int[bigger.length];
+        for (int i = 0; i < result.length; i++) {
+            if (i > smaller.length-1){
+                result[i] = bigger[i];
+            } else {
+                result[i] = (bigger[i] + smaller[i]) / 2;
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        int[] arr1 = {1,2,3,4,5,6,7};
+        int[] arr2 = {1,2,3,4,5};
+        int[] res = sumOfArrays(arr1, arr2);
+        System.out.println();
+    }
+}
+
+class Ex16{
+    public static String func17(String str){
+        String[] arr = str.split(" ");
+        String result = "";
+        for (int i = 0; i < arr.length; i++) {
+            char tempUp = arr[i].toUpperCase().charAt(0);
+            char tempDown = arr[i].toLowerCase().charAt(0);
+            if (result.length() == 0){
+                result += arr[i].charAt(0);
+            }
+            boolean isExist = false;
+            for (int j = 0; j < result.length(); j++) {
+                char temp = result.charAt(j);
+                if (temp == tempDown || temp == tempUp){
+                    isExist = false;
+                    break;
+                } else {
+                    isExist = true;
+                }
+            }
+            if (isExist){
+                result += arr[i].charAt(0);
+            }
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        String str = "I want it, I got it";
+        System.out.println("func:" + func17(str));
+    }
+}
+
+class Ex17{
+    public static boolean canProduce(int[] numbers, int goal){
+        for (int i = 0; i < numbers.length-1; i++) {
+            if (numbers[i] + numbers[i+1] == goal){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        int[] arr = {1,8,12,4,5};
+        System.out.println(canProduce(arr, 16));
+    }
+}
+
+class Ex18{
+    public static boolean isAnagram(String text1, String text2){
+        if (text1.length() != text2.length()){
+            return false;
+        }
+        String text1res = text1;
+        String text2res = text2;
+        for (int i = 0; i < text1.length(); i++) {
+
+            text1res = text1res.replaceFirst(text1.charAt(i)+"", "");
+            text2res = text2res.replaceFirst(text1.charAt(i)+"", "");
+        }
+        if (text1res.equals(text2res)){
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean halfAnagram(String text1, String text2){
+        if (text1.length() == text2.length()){
+            return false;
+        }
+        for (int i = 0; i < text1.length(); i++) {
+            if (!text2.contains(text1.charAt(i)+"")){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void main(String[] args) {
+        String s1 = "abac";
+        String s2 = "baacaa";
+        System.out.println(isAnagram(s1,s2));
+        System.out.println(halfAnagram(s1,s2));
+    }
+}
+
+class Ex19{
+    public static boolean isPrime(int num){
+        if (num<2){
+            return false;
+        }
+        for (int i = 2; i < num; i++) {
+            if (num % i == 0){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public static void func18(int num){
+        if (!isPrime(num)){
+            for (int i = 2; i <= Math.sqrt(num); i++) {
+                if (num % i == 0){
+                    System.out.println(i + " * " + (num/i));
+                }
+            }
+        } else {
+            System.out.println("NOO");
+        }
+    }
+
+    public static void main(String[] args) {
+        func18(18);
+    }
+}
+
+class Ex20{
+    public static void func20(String str){
+        str = str.replace(" ", "");
+        str = str.toUpperCase();
+        String strUnique = "";
+        for (int i = 0; i < str.length(); i++) {
+            if (!strUnique.contains(str.charAt(i)+"")){
+                strUnique += str.charAt(i);
+            }
+        }
+
+        for (int i = 0; i < strUnique.length(); i++) {
+            int counter = 0;
+            for (int j = 0; j < str.length(); j++) {
+                if (str.charAt(j) == strUnique.charAt(i)){
+                    counter++;
+                }
+            }
+            System.out.println(strUnique.charAt(i) + "-" + counter);
+        }
+    }
+
+    public static void main(String[] args) {
+        func20("Hello, this is a java string");
+    }
+}
+
+class Ex27{
+    public static String func27(String str){
+        String unique = "";
+        for (int i = 0; i < str.length(); i++) {
+            if (!unique.contains(str.charAt(i)+"")){
+                unique += str.charAt(i);
+            }
+        }
+        String result = "";
+        for (int i = 0; i < unique.length(); i++) {
+            int counter = 0;
+            for (int j = 0; j < str.length(); j++) {
+                if (str.charAt(j) == unique.charAt(i)){
+                    counter++;
+                }
+            }
+            result += unique.charAt(i) +"" + counter;
+        }
+        return result;
+    }
+
+    public static void main(String[] args) {
+        System.out.println(func27("Hello"));
     }
 }
