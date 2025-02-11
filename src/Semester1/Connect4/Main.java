@@ -53,37 +53,56 @@ public class Main {
                 }
             }
 
-//            for (int i = 1; i <= 7; i++) {
-//                int counter = 0;
-//                for (int j = 1; j <= 6; j++) {
-//                    if (i <= 4 && j <= 3){
-//                        for (int h = 0; h <= 3; h++) {
-//                            if (board.getPlayerInSquare(i+h, j+h) == k){
-//                                counter++;
-//                            } else {
-//                                counter = 0;
-//                            }
-//                            if (counter == 4){
-//                                return k;
-//                            }
-//                        }
-//                    }
-//                    if (i >= 4 && j <= 3){
-//                        for (int l = 0; l <= 3; l++) {
-//                            if (board.getPlayerInSquare(i-l, j-l) == k){
-//                                counter++;
-//                            } else {
-//                                counter = 0;
-//                            }
-//                            if (counter == 4){
-//                                return k;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
+            for (int i = 1; i <= 7; i++) {
+                int counter = 0;
+                for (int j = 1; j <= 6; j++) {
+                    if (i <= 4 && j <= 3){
+                        for (int h = 0; h <= 3; h++) {
+                            if (board.getPlayerInSquare(i+h, j+h) == k){
+                                counter++;
+                            } else {
+                                counter = 0;
+                            }
+                            if (counter == 4){
+                                return k;
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (int i = 1; i <= 6; i++) {
+                int counter = 0;
+                for (int j = 1; j <= 7; j++) {
+                    if (i >= 4 && j <= 3){
+                        for (int h = 0; h <= 3; h++) {
+                            if (board.getPlayerInSquare(i-h, j+h) == k){
+                                counter++;
+                            } else {
+                                counter = 0;
+                            }
+                            if (counter == 4){
+                                return k;
+                            }
+                        }
+                    }
+                }
+            }
         }
         return -1;
+    }
+
+    public static void fillAll(Board board, int player) {
+        for (int i = 1; i <= 7; i++) {
+            for (int j = 1; j <= 6; j++) {
+                board.placeSquare(i, j, player);
+                try {
+                    Thread.sleep(50); // Wait for 200 milliseconds before placing the next square
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
@@ -93,13 +112,21 @@ public class Main {
         while (true){
             int row = askRow();
             int line = getY(row, board);
+            if (line == -1){
+                System.out.println("The line is full. Try again.");
+                continue;
+            }
             board.placeSquare(row, line, currTurn);
-            if (isWinner(board) == 1){
+
+            int playerWin = isWinner(board);
+            if (playerWin == 1){
                 System.out.println("Player one wins");
+                fillAll(board, playerWin);
                 break;
             }
-            if (isWinner(board) == 2){
+            if (playerWin == 2){
                 System.out.println("Player two wins");
+                fillAll(board, playerWin);
                 break;
             }
 
