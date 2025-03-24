@@ -2,10 +2,15 @@ package Semester2.Lesson1.EggTapping;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.net.URI;
 
 public class MainScene extends JPanel {
     private int clickCount = 0;
     private ImageIcon icon;
+    private Timer rickrollTimer;
+    private boolean hasTriggeredTroll = false;
 
     public MainScene(int x, int y, int width, int height){
         final int TITLE_X = width;
@@ -27,6 +32,7 @@ public class MainScene extends JPanel {
         imageButton.setBounds(width / 2 - icon.getIconWidth() / 2 ,height / 6 + 60, icon.getIconWidth(), icon.getIconHeight());
 
         imageButton.addActionListener((event) -> {
+            if (hasTriggeredTroll) return;
             clickCount++;
             title.setText("Clicks: " + clickCount);
 
@@ -34,13 +40,44 @@ public class MainScene extends JPanel {
                 icon = new ImageIcon(getClass().getResource("EggStage2.png"));
             } else if (clickCount >= 20 && clickCount < 30) {
                 icon = new ImageIcon(getClass().getResource("EggStage3.png"));
-            } else if (clickCount >= 30) {
-                icon = new ImageIcon(getClass().getResource("Amit.png"));
+            } else if (clickCount >= 30 && clickCount < 40) {
+                icon = new ImageIcon(getClass().getResource("EggStage4.png"));
+                imageButton.setBounds(width / 2 - icon.getIconWidth() / 2 ,height / 6 + 60, icon.getIconWidth(), icon.getIconHeight());
+            } else if (clickCount >= 40) {
+                icon = new ImageIcon(getClass().getResource("EggStageFinal.png"));
+                imageButton.setBounds(width / 2 - icon.getIconWidth() / 2 ,height / 6 + 60, icon.getIconWidth(), icon.getIconHeight());
+
+                startRickrollTimer();
+                hasTriggeredTroll = true;
             }
+
             imageButton.setIcon(icon);
         });
 
         this.add(imageButton);
+
+    }
+
+    private void startRickrollTimer() {
+
+        rickrollTimer = new Timer(3000, new ActionListener() { // 3-second delay
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                triggerEndGameTroll();
+            }
+        });
+
+        rickrollTimer.setRepeats(false);
+        rickrollTimer.start();
+    }
+
+    private void triggerEndGameTroll() {
+
+        try {
+            Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 }
