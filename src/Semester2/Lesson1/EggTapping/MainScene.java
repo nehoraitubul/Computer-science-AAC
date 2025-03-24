@@ -1,4 +1,4 @@
-package Semester2.Lesson1;
+package Semester2.Lesson1.EggTapping;
 
 import javax.swing.*;
 import java.awt.*;
