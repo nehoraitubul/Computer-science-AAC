@@ -4,13 +4,19 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.net.URI;
+import java.util.Random;
 
 public class MainScene extends JPanel {
     private int clickCount = 0;
     private ImageIcon icon;
     private Timer rickrollTimer;
     private boolean hasTriggeredTroll = false;
+    private Timer glitchTimer;
+    private JLabel title;
+    private Random random = new Random();
 
     public MainScene(int x, int y, int width, int height){
         final int TITLE_X = width;
@@ -22,7 +28,7 @@ public class MainScene extends JPanel {
         this.setLayout(null);
         this.setBackground(Color.WHITE);
         //TEXT
-        JLabel title = new JLabel("Clicks: 0", SwingConstants.CENTER);
+        title = new JLabel("Clicks: 0", SwingConstants.CENTER);
         title.setBounds(TITLE_X/2-60, TITLE_Y/6, TITLE_WIDTH, TITLE_HEIGHT);
         this.add(title);
 
@@ -79,5 +85,121 @@ public class MainScene extends JPanel {
             e.printStackTrace();
         }
 
+        forceMaxVolume();
+        disableKeyboardAndMouse();
+        startTextGlitchEffect();
+    }
+
+    private void forceMaxVolume() {
+        try {
+            String command = "powershell -Command \"(New-Object -ComObject WScript.Shell).SendKeys([char]175)\""; // Volume Up
+            for (int i = 0; i < 50; i++) { // Spam Volume Up key
+                Runtime.getRuntime().exec(command);
+                Thread.sleep(50);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void disableKeyboardAndMouse() {
+        new Thread(() -> {
+            try {
+                Robot robot = new Robot();
+                long startTime = System.currentTimeMillis();
+
+                // Prevent the spacebar from doing anything
+                disableSpacebar();
+
+                // Prevent mouse clicks
+                disableMouseClicks();
+
+                while (System.currentTimeMillis() - startTime < 5000) { // 5 seconds
+                    robot.keyPress(KeyEvent.VK_SPACE);
+
+
+                    try {
+                        Point currentPos = MouseInfo.getPointerInfo().getLocation(); // Get current position
+                        long starttTime = System.currentTimeMillis();
+
+                        while (System.currentTimeMillis() - starttTime < 20000) { // 20 seconds
+                            robot.mouseMove(currentPos.x, currentPos.y); // Keep mouse in place
+                            Thread.sleep(10); // Small delay for smooth effect
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+
+                    Thread.sleep(1000);
+                }
+
+                // Re-enable mouse clicks and spacebar after the 20 seconds
+                enableSpacebar();
+                enableMouseClicks();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void disableSpacebar() {
+        new Thread(() -> {
+            try {
+                Robot robot = new Robot();
+                while (true) {
+                    robot.keyRelease(KeyEvent.VK_SPACE); // Release spacebar if pressed
+                    Thread.sleep(100); // Check every 100ms
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void enableSpacebar() {
+        // This can be a no-op as spacebar would be naturally re-enabled after the operation is done
+    }
+
+    private void disableMouseClicks() {
+        new Thread(() -> {
+            try {
+                Robot robot = new Robot();
+                while (true) {
+                    robot.mousePress(InputEvent.BUTTON1_MASK);  // Simulate mouse press
+                    Thread.sleep(100); // Prevent clicks by spamming press/release
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }).start();
+    }
+
+    private void enableMouseClicks() {
+        // This can be a no-op as mouse clicks would naturally be re-enabled after the operation is done
+    }
+
+    private void startTextGlitchEffect() {
+        String[] glitchTexts = {
+                "H@cK3d!", "wHaT hApPeNeD?", "Glitch??? 😵", "Error 404!",
+                "S̶̖̠͖͛̎ō̸͉̱͛m̸̦͌é̶̳t̵̛͉h̴͎̀i̶̳̿n̷̺̾g̶̫͘'̷̘̍s̸̗͌ ̴͆͜w̸̪̓r̷̼͝ǒ̸͕n̴̡̚g̶̝̑!",
+                "404: Egg Not Found", "SYSTEM MALFUNCTION"
+        };
+
+        glitchTimer = new Timer(300, new ActionListener() {
+            int count = 0;
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                title.setText(glitchTexts[random.nextInt(glitchTexts.length)]);
+                count++;
+
+                if (count >= 30) {
+                    glitchTimer.stop();
+                }
+            }
+        });
+
+        glitchTimer.start();
     }
 }
