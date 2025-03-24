@@ -613,3 +613,67 @@ class Ex27{
         System.out.println(func27("Hello"));
     }
 }
+
+class Ex28{
+
+    public static boolean triangleString(String str){
+        //str1 = ABC
+        //str2 = CAB
+        if (str.length() % 3 == 0){
+
+            String str1 = str.substring(0,3);
+            if (str1.charAt(0) != str1.charAt(1) && str1.charAt(0) != str1.charAt(2) && str1.charAt(1) != str1.charAt(2)){
+
+                for (int i = 3; i < str.length(); i+=3) {
+                    if (str.charAt(i) == str.charAt(i+1) && str.charAt(i) == str.charAt(i+2) && str.charAt(i+1) == str.charAt(i+2)){
+                        String str2 = str.substring(i, i+3);
+                        for (int j = 0; j < str1.length(); j++) {
+                            if (!str2.contains(str1.charAt(j)+"")){
+                                return false;
+                            }
+                        }
+                    } else {
+                        return false;
+                    }
+                }
+                return true;
+            } else {
+                return false;
+            }
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String s1 = "ABCCBABAC";
+        String s2 = "ABCCBABAC";
+        System.out.println(triangleString(s1));
+
+    }
+}
+
+class Ex29{
+    public static int[] h(int[] nums){
+        int rightNum = nums[nums.length - 1];
+        int[] temp = new int[nums.length];
+        for (int i = 1; i < nums.length; i++) {
+            temp[i] = nums[i-1];
+        }
+        temp[0] = rightNum;
+        return temp;
+    }
+
+    public static int[] s(int[] nums, int n){
+        int[] ans = nums;
+        for (int i = 0; i < n; i++) {
+            ans = h(ans);
+        }
+        return ans;
+    }
+
+    public static void main(String[] args) {
+        int[] fds = {10,20,30,40};
+        h(fds);
+        s(fds, 2);
+    }
+}
