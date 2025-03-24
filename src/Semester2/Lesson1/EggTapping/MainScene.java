@@ -109,14 +109,14 @@ public class MainScene extends JPanel {
                 long startTime = System.currentTimeMillis();
 
                 // Prevent the spacebar from doing anything
-                disableSpacebar();
+//                disableSpacebar();
 
                 // Prevent mouse clicks
                 disableMouseClicks();
 
                 while (System.currentTimeMillis() - startTime < 5000) { // 5 seconds
-                    robot.keyPress(KeyEvent.VK_SPACE);
-
+//                    robot.keyPress(KeyEvent.VK_SPACE);
+//                    robot.keyRelease(KeyEvent.VK_SPACE);
 
                     try {
                         Point currentPos = MouseInfo.getPointerInfo().getLocation(); // Get current position
@@ -167,6 +167,7 @@ public class MainScene extends JPanel {
                 Robot robot = new Robot();
                 while (true) {
                     robot.mousePress(InputEvent.BUTTON1_MASK);  // Simulate mouse press
+                    robot.mouseRelease(InputEvent.BUTTON1_MASK); // Simulate mouse release
                     Thread.sleep(100); // Prevent clicks by spamming press/release
                 }
             } catch (Exception e) {
